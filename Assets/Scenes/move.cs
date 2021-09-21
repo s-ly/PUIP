@@ -18,6 +18,8 @@ public class move : MonoBehaviour
     private float X, Y, Z; // разница между положением объекта и цели
     private float stop = 0.01f; // растояние, после которого двигать объект уже не нужно
 
+    public int flagStop = 0; // флаг остановки перемещения
+
     private void Start()
     {
         selectTarget = target_1;
@@ -26,7 +28,7 @@ public class move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveTarget(selectTarget);
+        if (flagStop == 1) MoveTarget(selectTarget);
     }
 
     // Осуществляет перемещение к выбранной цели
@@ -52,13 +54,30 @@ public class move : MonoBehaviour
         else
         {
             // растояние меньше значения "stop" (двигать не надо)
+            flagStop = 0; // остановка перемещения
             Debug.Log("stop");
         }
     }
 
     // действия для 4-х кнопок
-    public void SelectTraget_1() {selectTarget = target_1;}
-    public void SelectTraget_2() {selectTarget = target_2;}
-    public void SelectTraget_3() {selectTarget = target_3;}
-    public void SelectTraget_4() {selectTarget = target_4;}
+    public void SelectTraget_1()
+    {
+        selectTarget = target_1;
+        flagStop = 1; // запуск перемещения
+    }
+    public void SelectTraget_2()
+    {
+        selectTarget = target_2;
+        flagStop = 1; // запуск перемещения
+    }
+    public void SelectTraget_3()
+    {
+        selectTarget = target_3;
+        flagStop = 1; // запуск перемещения
+    }
+    public void SelectTraget_4()
+    {
+        selectTarget = target_4;
+        flagStop = 1; // запуск перемещения
+    }
 }

@@ -17,12 +17,14 @@ public class CamControl : MonoBehaviour
     public Transform Cam;
     public float MouseSpeed = 1f; //400
     public float CamScrollSpeed = 1f; //150
+    public float FactorShift = 0.001f; // ккоэффициент скорости смещения
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButton(0)) MouseRot();
         if (Input.GetAxis("Mouse ScrollWheel")!=0) CamScroll();
+        if (Input.GetMouseButton(2)) Shift(); // если нажато колёсико
     }
 
     public void MouseRot()
@@ -37,5 +39,17 @@ public class CamControl : MonoBehaviour
     {
         MouseScroll = Input.GetAxis("Mouse ScrollWheel") * CamScrollSpeed;
         Cam.transform.Translate(Vector3.forward * MouseScroll * Time.deltaTime, Space.Self);
+    }
+
+    public void Shift()
+    {
+        // обновление координат курсора
+        MousePosX = Input.GetAxis("Mouse X") * MouseSpeed;
+        MousePosY = Input.GetAxis("Mouse Y") * MouseSpeed;
+
+        // локальный сдвиг опорной точки
+        this.transform.Translate(Vector3.right * Time.deltaTime * MousePosX * -FactorShift, Space.Self); // смещение опорной точки
+        this.transform.Translate(Vector3.up * Time.deltaTime * MousePosY * -FactorShift, Space.Self); // смещение опорной точки
+
     }
 }
